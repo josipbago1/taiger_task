@@ -11,7 +11,10 @@ class ArticleService:
         return [x for x in articles if x.__dict__[param] == value]
 
     def get_articles_by_params(self, params):
+        if len(params.keys()) == 0:
+            return []
+        found_articles = []
         all_articles = ArticleRepository.get_all_articles()
         for param, value in params.items():
-            all_articles = self.filter_articles_by_param(all_articles, param, value)
-        return all_articles
+            found_articles += self.filter_articles_by_param(all_articles, param, value)
+        return set(found_articles)
